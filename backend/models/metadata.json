@@ -1,0 +1,23 @@
+{
+  "ensemble_accuracy": 88.66,
+  "ensemble_auc": 93.77,
+  "optimal_threshold": 0.47100000000000025,
+  "feature_count": 85,
+  "train_samples": 5754,
+  "test_samples": 1438,
+  "models_used": [
+    "catboost_model",
+    "catboost_model_v2",
+    "lightgbm_model",
+    "lightgbm_model_v2",
+    "xgboost_model",
+    "lightgbm_tuned"
+  ],
+  "training_date": "2026-06-02T13:33:05.653129",
+  "framework_versions": {
+    "sklearn": "1.5.3",
+    "lightgbm": "installed",
+    "xgboost": "installed",
+    "catboost": "installed"
+  }
+}
