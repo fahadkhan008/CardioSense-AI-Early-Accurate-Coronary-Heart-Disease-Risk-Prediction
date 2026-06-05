@@ -5,13 +5,13 @@ export default function TeamSection() {
     {
       name: 'Hammad Ahmed',
       id: 'B-28400',
-      roles: ['Research', 'EDA', 'Model Training'],
+      roles: ['Data Pre-Processing', 'EDA', 'Model Training', 'Fine-Tunning','Documentation'],
       color: '#3B82F6'
     },
     {
       name: 'Fahad Khan',
       id: 'B-28417',
-      roles: ['Data Cleaning', 'Feature Engineering', 'Documentation'],
+      roles: ['Research', 'Feature Engineering', 'Class Imbalance Handling', 'Model Evaluation', 'Deployment',],
       color: '#10B981'
     }
   ];

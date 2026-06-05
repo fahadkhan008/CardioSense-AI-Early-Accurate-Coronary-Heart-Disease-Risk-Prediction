@@ -21,11 +21,9 @@ xgb_model   = joblib.load(MODELS_DIR / "xgboost_model.pkl")
 lgbm_model  = joblib.load(MODELS_DIR / "lightgbm_model.pkl")
 cat_model   = joblib.load(MODELS_DIR / "catboost_model.pkl")
 scaler      = joblib.load(MODELS_DIR / "scaler.pkl")
-
-# If you saved all 6 models, uncomment below and update filenames:
-# cat_model2    = joblib.load(MODELS_DIR / "catboost_v2_model.pkl")
-# lgbm_model2   = joblib.load(MODELS_DIR / "lightgbm_v2_model.pkl")
-# lgbm_tuned    = joblib.load(MODELS_DIR / "lightgbm_tuned_model.pkl")
+cat_model2    = joblib.load(MODELS_DIR / "catboost_model_v2.pkl")
+lgbm_model2   = joblib.load(MODELS_DIR / "lightgbm_model_v2.pkl")
+lgbm_tuned    = joblib.load(MODELS_DIR / "lightgbm_tuned.pkl")
 
 print("✓ All models loaded successfully!")
 
@@ -298,10 +296,13 @@ async def predict(data: PatientData):
     xgb_prob  = float(xgb_model.predict_proba(features_scaled)[0][1])
     lgbm_prob = float(lgbm_model.predict_proba(features_scaled)[0][1])
     cat_prob  = float(cat_model.predict_proba(features_scaled)[0][1])
+    lgbm_prob2 = float(lgbm_model2.predict_proba(features_scaled)[0][1])
+    cat_prob2  = float(cat_model2.predict_proba(features_scaled)[0][1])
+    lgbm_tuned_prob = float(lgbm_tuned.predict_proba(features_scaled)[0][1])
 
     # 4. Equal-weighted ensemble (matches notebook Step 10)
     # If you loaded 6 models, average all 6 here instead
-    ensemble_prob = round((xgb_prob + lgbm_prob + cat_prob) / 3, 4)
+    ensemble_prob = round((xgb_prob + lgbm_prob + cat_prob + lgbm_prob2 + cat_prob2 + lgbm_tuned_prob) / 6, 4)
     prediction    = 1 if ensemble_prob >= 0.5 else 0
 
     # 5. Risk level
@@ -359,6 +360,9 @@ async def predict(data: PatientData):
         xgboost_probability=xgb_prob,
         lightgbm_probability=lgbm_prob,
         catboost_probability=cat_prob,
+        lightgbm_probability2=lgbm_prob2,
+        catboost_probability2=cat_prob2,
+        lightgbm_tuned_probability=lgbm_tuned_prob,
         feature_importance=feature_importance,
         recommendations=recommendations_map[risk_level],
     )
